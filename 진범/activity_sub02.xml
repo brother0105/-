@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        >
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:text="음식제목"
+
+            android:textSize="25sp" />
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="fdfdf"
+            android:layout_alignParentRight="true"></Button>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- drawable에 사진을 넣어야 background가 작동이 되어 사진이 나옴 -->
+
+        <ImageView
+            android:id="@+id/dishpicture"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/dish"
+            android:scaleType="fitCenter"
+            >
+
+        </ImageView>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_toRightOf="@id/dishpicture"
+            android:layout_marginLeft="10dp"
+            android:text="아 배고프다\n아\nㅇ\nㅇㄹㅇ\nㄹㅇㄴㄹㄴㅇㄹ"
+            >
+        </TextView>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarFadeDuration="0"
+        android:scrollbarSize="10dp"
+
+        android:layout_marginTop="20dp"
+        android:scrollbarThumbVertical="@color/black">
+
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:gravity="center"
+                    android:textSize="24sp"
+                    android:textColor="#000000"
+                    android:background="#787878"
+                    android:text="A" />
+
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:background="#787878"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:background="#787878"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:gravity="center"
+                    android:textSize="24sp"
+                    android:textColor="#000000"
+                    android:background="#FFFFFF"
+                    android:text="A" />
+
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:gravity="center"
+                    android:textSize="24sp"
+                    android:textColor="#000000"
+                    android:background="#FFFFFF"
+                    android:text="A" />
+
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+            </TableRow>
+
+        </TableLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="메모추가"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:includeFontPadding="false"
+            android:textSize="10sp"
+            >
+
+
+        </Button>
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarFadeDuration="0"
+        android:layout_marginTop="30dp"
+        android:scrollbarSize="10dp"
+        android:scrollbarThumbVertical="@color/black">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:background="#787878"
+                    android:gravity="center"
+                    android:text="A"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:background="#787878"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:background="#787878"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="A"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="A"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="B"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+
+            </TableRow>
+
+        </TableLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="메모추가"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:includeFontPadding="false"
+            android:textSize="10sp"
+            >
+
+
+        </Button>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+
+            android:text="레시피" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
