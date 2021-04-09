@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/Re1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+        <EditText
+            android:id="@+id/editSearch"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:layout_marginLeft="21dp"
+            android:layout_marginRight="1dp"
+            android:hint="검색어를 입력하세요.">
+
+        </EditText>
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/editSearch"
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/search_icon"
+            android:onClick="btn_Click"
+            >
+        </ImageButton>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/lin1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/Re1">
+
+            <ListView
+                android:id="@+id/recipelist"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                >
+            </ListView>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:divider="#999999"
+            android:dividerHeight="1dp"
+            android:background="@color/cardview_light_background"
+            android:layout_below="@+id/Re1"
+            >
+        </ListView>
+
+    </RelativeLayout>
+
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:text="레시피 추가"
+        >
+    </Button>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            >
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <Button
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:autoSizeTextType="uniform"
+                    android:background="@drawable/a"
+                    android:singleLine="true"
+                    android:includeFontPadding="false"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:text="나의 정보"></Button>
+
+                <Button
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/a"
+                    android:includeFontPadding="false"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:textSize="18dp"
+                    android:text="레시피"
+                    >
+                </Button>
+                <Button
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/a"
+                    android:includeFontPadding="false"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:textSize="18sp"
+                    android:text="즐겨찾기"
+                    >
+                </Button>
+                <Button
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/a"
+                    android:includeFontPadding="false"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:textSize="18dp"
+                    android:text="내 글"
+                    >
+                </Button>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+</LinearLayout>
+
+</ScrollView>
