@@ -16,11 +16,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButtonClick(View v) {
-        Intent intent = new Intent(this, Myfavnview.class);
+        Intent intent = new Intent(this, TestR.class);
         startActivity(intent);
     }
     public void onButtonClick2(View v) {
         Intent intent = new Intent(this, RecipeList.class);
+        startActivity(intent);
+    }
+
+    public void onButtonClick3(View v) {
+        Intent intent = new Intent(this, Testinternet.class);
+        startActivity(intent);
+    }
+
+    public void onButtonClick4(View v) {
+        Intent intent = new Intent(this, TestreceivefromInternet.class);
+        startActivity(intent);
+    }
+
+    public void onButtonClick5(View v) {
+        Intent intent = new Intent(this, CopyRecipelist.class);
         startActivity(intent);
     }
 

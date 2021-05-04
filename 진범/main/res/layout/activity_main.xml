@@ -62,6 +62,7 @@
             android:layout_height="300dp"
             android:src="@drawable/lena"
             android:visibility="visible"
+            android:onClick="onButtonClick3"
             />
     </LinearLayout>
 
@@ -92,15 +93,17 @@
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_marginLeft="50dp"
+            android:onClick="onButtonClick4"
             android:text="Button" />
+
         <Button
             android:id="@+id/button5"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/button4"
-            android:text="Button"
-            />
+            android:onClick="onButtonClick5"
+            android:text="Button" />
 
     </LinearLayout>
 
