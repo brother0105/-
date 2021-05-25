@@ -24,6 +24,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/a"
+            android:onClick="onButtonClick7"
             android:text="뒤로 가기" />
 
         <TextView
@@ -42,6 +43,7 @@
             android:layout_height="100dp"
             android:padding="0dp"
             android:scaleType="fitCenter"
+            android:onClick="onButtonClick6"
             android:src="@drawable/setting" />
 
 
