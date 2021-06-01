@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.recrecipe">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <application
+        android:usesCleartextTraffic="true"
+
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.G">
+        <activity android:name="com.example.recrecipe.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.example.recrecipe.SubActivity01" />
+        <activity android:name="com.example.recrecipe.Recipe" />
+        <activity android:name="com.example.recrecipe.RecipeList" />
+        <activity android:name="com.example.recrecipe.MenuActivity" />
+        <activity android:name="com.example.recrecipe.Myfavnview" />
+        <activity android:name="com.example.recrecipe.Testinternet" />
+        <activity android:name="com.example.recrecipe.TestR" />
+        <activity android:name="com.example.recrecipe.CopyRecipelist" />
+        <activity android:name="com.example.recrecipe.TestApi" />
+        <activity android:name="com.example.recrecipe.TestUpdate" />
+        <activity android:name="com.example.recrecipe.TestreceivefromInternet" />
+
+
+    </application>
+
+</manifest>
