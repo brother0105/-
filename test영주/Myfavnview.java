@@ -42,7 +42,7 @@ public class Myfavnview extends AppCompatActivity {
     private ListView favlist;
     private ListViewAdapter adapterForfav;
     private ListView viewlist;
-    private ListViewAdapter adapterForview;
+    private Myviewadapter adapterForview;
     private String mJsonString;
 
 
@@ -51,9 +51,10 @@ public class Myfavnview extends AppCompatActivity {
 
     private static final String TAG_JSON="tester";
     private static final String TAG_PHOTO = "photo";
-    private static final String TAG_ID = "id";
+    private static final String TAG_ID = "id";//id쓰게 되면 사용될 예정
     private static final String TAG_RECNAME = "recname";
     private static final String TAG_MEMO ="memo";
+    private static final String TAG_DATE ="date";
 
 
 
@@ -67,14 +68,18 @@ public class Myfavnview extends AppCompatActivity {
         Arraylist.addAll(list);
 
         adapterForfav = new ListViewAdapter();
+        adapterForview = new Myviewadapter();
 
         favlist = (ListView) findViewById(R.id.Myfav);
         favlist.setAdapter(adapterForfav);
-        GetDatafav task = new GetDatafav();
-        task.execute("http://"+IP_ADDRESS+"/myfav.php");
+        GetDatafav favtask = new GetDatafav();
+        favtask.execute("http://"+IP_ADDRESS+"/myfav.php");
 
         viewlist = (ListView) findViewById(R.id.myview);
         viewlist.setAdapter(adapterForview);
+        GetDataview viewtask = new GetDataview();
+        viewtask.execute("http://"+IP_ADDRESS+"/myview.php");
+
 
 
         //커스텀 뷰 이벤트 처리에 대해 질문 필요. 길게 누르고 그 것에 대한 메모수정, 삭제 다이얼로그를 띄우게하려면 어떻게 해야하는가.
@@ -124,7 +129,7 @@ public class Myfavnview extends AppCompatActivity {
             else {
 
                 mJsonString = result;
-                showResult();
+                favshowResult();
             }
         }
 
@@ -185,7 +190,7 @@ public class Myfavnview extends AppCompatActivity {
         }
     }
 
-    private void showResult(){
+    private void favshowResult(){
         try {
             JSONObject jsonObject = new JSONObject(mJsonString);
             JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
@@ -217,6 +222,135 @@ public class Myfavnview extends AppCompatActivity {
 
                 adapterForfav.addItem(photo, recname, memo);
                 adapterForfav.notifyDataSetChanged();
+
+            }
+
+        } catch (JSONException e) {
+
+            Log.d(TAG, "showResult : ", e);
+        }
+
+    }
+
+    private class GetDataview extends AsyncTask<String, Void, String> {
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(Myfavnview.this,
+                    "Please Wait", null, true, true);
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            progressDialog.dismiss();
+            Log.d(TAG, "response  - " + result);
+
+            if (result == null){
+
+            }
+            else {
+
+                mJsonString = result;
+                viewshowResult();
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String serverURL = params[0];
+
+
+            try {
+
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.connect();
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+
+                bufferedReader.close();
+
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "InsertData: Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+        }
+    }
+
+    private void viewshowResult(){
+        try {
+            JSONObject jsonObject = new JSONObject(mJsonString);
+            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
+
+            for(int i=0;i<jsonArray.length();i++){
+
+                JSONObject item = jsonArray.getJSONObject(i);
+
+                String recphoto=item.getString(TAG_PHOTO);
+                String recname = item.getString(TAG_RECNAME);
+                String date = item.getString(TAG_DATE);
+                Drawable photo= ContextCompat.getDrawable(this, R.drawable.search_icon);
+
+
+                Myviewitem Myviewitem = new Myviewitem();
+
+
+                if(recphoto.matches("http://(.*)")){//recphoto로 받은게 url이면
+
+                }
+                else if(recphoto.matches("(.*).png")||recphoto.matches("(.*).jpg")){
+
+                }
+                //recphoto로 받은 string이 null이 거나 이미지 파일이 아니거나 url도 아닐경우 그대로 검색 아이콘
+
+                Myviewitem.setIcon(photo);
+                Myviewitem.setTitle(recname);
+                Myviewitem.setDate(date);
+
+                adapterForview.addItem(photo, recname, date);
+                adapterForview.notifyDataSetChanged();
 
             }
 
