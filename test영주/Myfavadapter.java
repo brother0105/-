@@ -41,8 +41,8 @@ public class Myfavadapter extends BaseAdapter {
         }
 
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1);
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1);
-        TextView memoTextView = (TextView) convertView.findViewById(R.id.textView2);
+        TextView titleTextView = (TextView) convertView.findViewById(R.id.recipetitle);
+        TextView memoTextView = (TextView) convertView.findViewById(R.id.favmemo);
 
         // Data Set(MyfavnviewitemList)에서 position에 위치한 데이터 참조 획득
         Myfavitem listViewItem = MyfavitemList.get(position);
@@ -85,5 +85,7 @@ public class Myfavadapter extends BaseAdapter {
 
         item.setTitle(title);
         item.setMemo(memo);
+
+        MyfavitemList.add(item);
     }
 }
