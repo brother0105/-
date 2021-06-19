@@ -20,7 +20,7 @@ public class Myinfo extends AppCompatActivity {
     }
 
     public void EventGotofav(View v){
-        Intent intent = new Intent(getApplicationContext(), Myfavnview.class);
+        Intent intent = new Intent(getApplicationContext(), favorite.class);
         startActivity(intent);
     }
 
