@@ -41,8 +41,8 @@ public class Myviewadapter extends BaseAdapter {
         }
 
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1);
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1);
-        TextView dateTextView= (TextView) convertView.findViewById(R.id.textView2);
+        TextView titleTextView = (TextView) convertView.findViewById(R.id.recipetitle);
+        TextView dateTextView= (TextView) convertView.findViewById(R.id.favdate);
 
         // Data Set(MyfavnviewitemList)에서 position에 위치한 데이터 참조 획득
         Myviewitem listViewItem = MyviewitemList.get(position);
@@ -77,6 +77,14 @@ public class Myviewadapter extends BaseAdapter {
         Myviewitem item = new Myviewitem();
 
         item.setIcon(icon);
+        item.setTitle(title);
+        item.setDate(memo);
+
+        MyviewitemList.add(item);
+    }
+    public void addItem(String title, String memo) {
+        Myviewitem item = new Myviewitem();
+
         item.setTitle(title);
         item.setDate(memo);
 

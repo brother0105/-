@@ -18,8 +18,9 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="New Text"
+        android:onClick="titleClicked"
         android:textColor="#000000"
-        android:textSize="24dp" />
+        android:textSize="16dp" />
 
     <!-- 메모 -->
     <TextView
@@ -28,8 +29,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="New Text"
+        android:onClick="memoClicked"
         android:textColor="#000000"
-        android:textSize="24dp" />
+        android:textSize="10dp" />
 
-    <!-- 꾹누르면 삭제나 메모 수정이 허용가능하게? -->
 </LinearLayout>

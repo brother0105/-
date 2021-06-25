@@ -41,8 +41,8 @@ public class Myfavadapter extends BaseAdapter {
         }
 
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1);
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1);
-        TextView memoTextView = (TextView) convertView.findViewById(R.id.textView2);
+        TextView titleTextView = (TextView) convertView.findViewById(R.id.recipetitle);
+        TextView memoTextView = (TextView) convertView.findViewById(R.id.favmemo);
 
         // Data Set(MyfavnviewitemList)에서 position에 위치한 데이터 참조 획득
         Myfavitem listViewItem = MyfavitemList.get(position);
@@ -70,13 +70,19 @@ public class Myfavadapter extends BaseAdapter {
 
 
 
-
-
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
     public void addItem(Drawable icon, String title, String memo) {
         Myfavitem item = new Myfavitem();
 
         item.setIcon(icon);
+        item.setTitle(title);
+        item.setMemo(memo);
+
+        MyfavitemList.add(item);
+    }
+    public void addItem(String title, String memo){
+        Myfavitem item = new Myfavitem();
+
         item.setTitle(title);
         item.setMemo(memo);
 
