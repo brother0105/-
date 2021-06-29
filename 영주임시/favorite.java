@@ -1,5 +1,7 @@
 package com.example.recrecipe;
 import android.app.ProgressDialog;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -21,10 +23,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import android.graphics.Bitmap;
 
 public class favorite extends AppCompatActivity {
 
@@ -37,7 +42,7 @@ public class favorite extends AppCompatActivity {
     private static String TAG = "phptest";
 
     private static final String TAG_JSON="tester";
-    private static final String TAG_PHOTO = "photo";
+    private static final String TAG_PHOTO = "recphoto";
     private static final String TAG_ID = "id";//id쓰게 되면 사용될 예정
     private static final String TAG_RECNAME = "recname";
     private static final String TAG_MEMO ="memo";
@@ -183,9 +188,9 @@ public class favorite extends AppCompatActivity {
 
                 JSONObject item = jsonArray.getJSONObject(i);
 
-                String recphoto=item.optString(TAG_PHOTO,null);
                 String recname = item.getString(TAG_RECNAME);
                 String memo = item.optString(TAG_MEMO,"");
+                String recphoto=item.optString(TAG_PHOTO,null);
 
 
                 Myfavitem Myfavitem = new Myfavitem();
@@ -194,15 +199,29 @@ public class favorite extends AppCompatActivity {
                 Myfavitem.setTitle(recname);
                 Myfavitem.setMemo(memo);
 
-                if(recphoto==null) {
+                if(recphoto==null || recphoto == "" || recphoto=="null") {
                     Drawable photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
                     adapterForfav.addItem(photo, recname, memo);
                 }
-                else if(recphoto.matches("http://(.*)")){//recphoto로 받은게 url이면
+                else if(recphoto.matches("https://(.*)")||recphoto.matches("http://(.*)")){//recphoto로 받은게 url이면
+                    try{
+                        URL url = new URL (recphoto);//괄호안에 url
+                        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                        conn.setDoInput(true);
+                        conn.connect();
+
+                        InputStream is = conn.getInputStream();
+                        Drawable photo = new BitmapDrawable(is);
+                        adapterForfav.addItem(photo, recname, memo);
+
+                    } catch (IOException ex){
+
+                    }
 
                 }
                 else{//이미지 이름을 받았으면
-                    Drawable photo=getResources().getDrawable(getResources().getIdentifier(recphoto,"Drawable",getPackageName()));
+                    int photoid = getResources().getIdentifier(recphoto,"drawable",getPackageName());
+                    Drawable photo=getResources().getDrawable(photoid);
                     Myfavitem.setIcon(photo);
                     adapterForfav.addItem(photo, recname, memo);
                 }
