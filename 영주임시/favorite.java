@@ -214,16 +214,23 @@ public class favorite extends AppCompatActivity {
                         Drawable photo = new BitmapDrawable(is);
                         adapterForfav.addItem(photo, recname, memo);
 
-                    } catch (IOException ex){
-
+                    } catch (Exception ex){
+                        Drawable photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
+                        adapterForfav.addItem(photo, recname, memo);
                     }
 
                 }
                 else{//이미지 이름을 받았으면
-                    int photoid = getResources().getIdentifier(recphoto,"drawable",getPackageName());
-                    Drawable photo=getResources().getDrawable(photoid);
-                    Myfavitem.setIcon(photo);
-                    adapterForfav.addItem(photo, recname, memo);
+                    try {
+                        int photoid = getResources().getIdentifier(recphoto, "drawable", getPackageName());
+                        Drawable photo = getResources().getDrawable(photoid);
+                        Myfavitem.setIcon(photo);
+                        adapterForfav.addItem(photo, recname, memo);
+                    } catch(Exception ex){
+                        Drawable photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
+                        adapterForfav.addItem(photo, recname, memo);
+                    }
+
                 }
                 //recphoto로 받은 string이 null이 거나 이미지 파일이 아니거나 url도 아닐경우 그대로 검색 아이콘
 
