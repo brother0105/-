@@ -2,6 +2,7 @@ package com.example.recrecipe;
 import android.app.ProgressDialog;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.http.HttpResponseCache;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -46,6 +47,7 @@ public class favorite extends AppCompatActivity {
     private static final String TAG_ID = "id";//id쓰게 되면 사용될 예정
     private static final String TAG_RECNAME = "recname";
     private static final String TAG_MEMO ="memo";
+    Drawable photo=null;
 
 
     @Override
@@ -199,23 +201,33 @@ public class favorite extends AppCompatActivity {
                 Myfavitem.setTitle(recname);
                 Myfavitem.setMemo(memo);
 
-                if(recphoto==null || recphoto == "" || recphoto=="null") {
-                    Drawable photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
-                    adapterForfav.addItem(photo, recname, memo);
-                }
-                else if(recphoto.matches("https://(.*)")||recphoto.matches("http://(.*)")){//recphoto로 받은게 url이면
+                if(recphoto.matches("https://(.*)")||recphoto.matches("http://(.*)")){//recphoto로 받은게 url이면
+
+                    Thread mThread = new Thread() {
+                        @Override
+                        public void run(){
+                            try{
+                                URL url2 = new URL (recphoto);
+                                HttpURLConnection conn = (HttpURLConnection)url2.openConnection();
+                                conn.setDoInput(true);
+                                conn.connect();
+
+                                InputStream is = conn.getInputStream();
+                                photo = new BitmapDrawable(is);
+                            } catch (Exception ex){
+                                Log.d(TAG, "GetData : Error ", ex);
+                                String errorString = ex.toString();
+
+
+                            }
+                        }
+                    };
+                    mThread.start();
                     try{
-                        URL url = new URL (recphoto);//괄호안에 url
-                        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                        conn.setDoInput(true);
-                        conn.connect();
-
-                        InputStream is = conn.getInputStream();
-                        Drawable photo = new BitmapDrawable(is);
+                        mThread.join();
                         adapterForfav.addItem(photo, recname, memo);
-
-                    } catch (Exception ex){
-                        Drawable photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
+                    }catch(Exception e){
+                        photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
                         adapterForfav.addItem(photo, recname, memo);
                     }
 
@@ -223,11 +235,11 @@ public class favorite extends AppCompatActivity {
                 else{//이미지 이름을 받았으면
                     try {
                         int photoid = getResources().getIdentifier(recphoto, "drawable", getPackageName());
-                        Drawable photo = getResources().getDrawable(photoid);
+                        photo = getResources().getDrawable(photoid);
                         Myfavitem.setIcon(photo);
                         adapterForfav.addItem(photo, recname, memo);
                     } catch(Exception ex){
-                        Drawable photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
+                        photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
                         adapterForfav.addItem(photo, recname, memo);
                     }
 
@@ -244,5 +256,6 @@ public class favorite extends AppCompatActivity {
         }
 
     }
+
 
 }
