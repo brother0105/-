@@ -19,9 +19,10 @@
     
             array_push($data, 
                 array(
-				'recphoto'=>$photo,
                 'recname'=>$recipe_name,
-                'memo'=>$f_memo
+                'memo'=>$f_memo,
+				'recphoto'=>$photo,
+				'number'=>$recipe_num
             ));
         }
 
