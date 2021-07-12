@@ -15,6 +15,7 @@ import android.content.Intent;
 //이 밑으로 추가
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.graphics.drawable.Drawable;
@@ -32,7 +33,7 @@ import java.net.URL;
 
 import android.graphics.Bitmap;
 
-public class favorite extends AppCompatActivity {
+public class favorite extends AppCompatActivity  {
 
 
     private ListView favlist;
@@ -47,6 +48,7 @@ public class favorite extends AppCompatActivity {
     private static final String TAG_ID = "id";//id쓰게 되면 사용될 예정
     private static final String TAG_RECNAME = "recname";
     private static final String TAG_MEMO ="memo";
+    private static final String TAG_NUM="number";
     Drawable photo=null;
 
 
@@ -64,11 +66,23 @@ public class favorite extends AppCompatActivity {
         favtask.execute("http://"+IP_ADDRESS+"/myfav.php");
 
 
-
-
-
     }
 
+    @Override
+    protected void onActivityResult(int Code, int result, Intent data){
+        super.onActivityResult(Code,result,data);
+        Intent intent =getIntent();
+        finish();
+        overridePendingTransition(0,0);
+        startActivity(intent);
+        overridePendingTransition(0,0);
+    }
+/*
+    protected void onResume(){
+        super.onResume();
+        adapterForfav.notifyDataSetChanged();
+    }
+*/
 
     public void onBackButtonClicked(View v) {
         Toast.makeText(getApplicationContext(), "돌아가기 버튼을 눌렀어요.", Toast.LENGTH_LONG).show();
@@ -86,13 +100,6 @@ public class favorite extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void titleClicked(View v){//이름 클릭시 해당 페이지로 가게
-
-    }
-
-    public void memoClicked(View v){//메모 클릭시 팝업창 띄워서 수정할 수 있게
-
-    }
 
     private class GetData extends AsyncTask<String, Void, String> {
         ProgressDialog progressDialog;
@@ -193,6 +200,7 @@ public class favorite extends AppCompatActivity {
                 String recname = item.getString(TAG_RECNAME);
                 String memo = item.optString(TAG_MEMO,"");
                 String recphoto=item.optString(TAG_PHOTO,null);
+                String number=item.getString(TAG_NUM);
 
 
                 Myfavitem Myfavitem = new Myfavitem();
@@ -225,10 +233,10 @@ public class favorite extends AppCompatActivity {
                     mThread.start();
                     try{
                         mThread.join();
-                        adapterForfav.addItem(photo, recname, memo);
+                        adapterForfav.addItem(photo, recname, memo,number);
                     }catch(Exception e){
                         photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
-                        adapterForfav.addItem(photo, recname, memo);
+                        adapterForfav.addItem(photo, recname, memo,number);
                     }
 
                 }
@@ -237,10 +245,10 @@ public class favorite extends AppCompatActivity {
                         int photoid = getResources().getIdentifier(recphoto, "drawable", getPackageName());
                         photo = getResources().getDrawable(photoid);
                         Myfavitem.setIcon(photo);
-                        adapterForfav.addItem(photo, recname, memo);
+                        adapterForfav.addItem(photo, recname, memo,number);
                     } catch(Exception ex){
                         photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
-                        adapterForfav.addItem(photo, recname, memo);
+                        adapterForfav.addItem(photo, recname, memo,number);
                     }
 
                 }

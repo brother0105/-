@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="360dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/memotitle"
+            android:text="메모 수정"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:background="#0000bb"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="360dp"
+        android:layout_height="360dp"
+        android:padding="30dp"
+        >
+
+        <EditText
+            android:id="@+id/memoedit"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center">
+
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        >
+        <Button
+            android:id="@+id/memomodify"
+            android:layout_width="60dp"
+            android:layout_height="45dp"
+            android:text="수정"
+            android:singleLine="true"
+            android:padding="0dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            />
+        <Button
+            android:id="@+id/memocancle"
+            android:layout_width="60dp"
+            android:layout_height="45dp"
+            android:text="취소"
+            android:singleLine="true"
+            android:padding="0dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

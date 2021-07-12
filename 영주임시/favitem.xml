@@ -18,7 +18,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="New Text"
-        android:onClick="titleClicked"
         android:textColor="#000000"
         android:textSize="16dp" />
 
@@ -29,7 +28,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="New Text"
-        android:onClick="memoClicked"
         android:textColor="#000000"
         android:textSize="10dp" />
 

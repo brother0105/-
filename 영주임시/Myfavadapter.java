@@ -1,6 +1,8 @@
 package com.example.recrecipe;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,32 @@ public class Myfavadapter extends BaseAdapter {
         titleTextView.setText(listViewItem.getTitle());
         memoTextView.setText(listViewItem.getmemo());
 
+        iconImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //이미지 팝업은 일단 미구현으로
+            }
+        });
+        titleTextView.setOnClickListener(new View.OnClickListener() {//해당 레시피로 가는 거
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        memoTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context.getApplicationContext(), favmemopopup.class);
+                intent.putExtra("name",listViewItem.getTitle());
+                intent.putExtra("memo",listViewItem.getmemo());
+                intent.putExtra("number",listViewItem.getnumber());
+                ((Activity) context).startActivityForResult(intent,1);
+            }
+        });
+
+
+
+
         return convertView;
     }
 
@@ -71,21 +99,15 @@ public class Myfavadapter extends BaseAdapter {
 
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable icon, String title, String memo) {
+    public void addItem(Drawable icon, String title, String memo, String number) {
         Myfavitem item = new Myfavitem();
 
         item.setIcon(icon);
         item.setTitle(title);
         item.setMemo(memo);
+        item.setnum(number);
 
         MyfavitemList.add(item);
-    }
-    public void addItem(String title, String memo){
-        Myfavitem item = new Myfavitem();
-
-        item.setTitle(title);
-        item.setMemo(memo);
-
-        MyfavitemList.add(item);
+        this.notifyDataSetChanged();
     }
 }
