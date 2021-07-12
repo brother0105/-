@@ -24,6 +24,7 @@
         android:layout_width="360dp"
         android:layout_height="360dp"
         android:padding="30dp"
+        android:background="#eeeeee"
         >
 
         <EditText
