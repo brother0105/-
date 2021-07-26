@@ -91,8 +91,11 @@ public class favorite extends AppCompatActivity  {
 
 
     public void EventGotofav(View v){
-        Intent intent = new Intent(getApplicationContext(), favorite.class);
+        Intent intent =getIntent();
+        finish();
+        overridePendingTransition(0,0);
         startActivity(intent);
+        overridePendingTransition(0,0);
     }
 
     public void EventGotomyinfo(View v){

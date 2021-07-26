@@ -1,5 +1,6 @@
 package com.example.recrecipe;
 import android.app.ProgressDialog;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -41,6 +42,8 @@ public class myview extends AppCompatActivity {
     private static final String TAG_ID = "id";//id쓰게 되면 사용될 예정
     private static final String TAG_RECNAME = "recname";
     private static final String TAG_DATE ="date";
+    private static final String TAG_NUM="number";
+    Drawable photo=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,29 +176,61 @@ public class myview extends AppCompatActivity {
 
                 String recphoto=item.optString(TAG_PHOTO,null);
                 String recname = item.getString(TAG_RECNAME);
-                String memo = item.getString(TAG_DATE);
-                Drawable photo= ContextCompat.getDrawable(this, R.drawable.search_icon);
+                String date = item.getString(TAG_DATE);
+                String number=item.getString(TAG_NUM);
 
 
-                Myfavitem Myfavitem = new Myfavitem();
+                Myviewitem Myviewitem = new Myviewitem();
+
+                Myviewitem.setTitle(recname);
+                Myviewitem.setDate(date);
 
 
+                if(recphoto.matches("https://(.*)")||recphoto.matches("http://(.*)")){//recphoto로 받은게 url이면
 
-                if(recphoto==null)
-                    ;
-                else if(recphoto.matches("http://(.*)")){//recphoto로 받은게 url이면
-                    ;
+                    Thread mThread = new Thread() {
+                        @Override
+                        public void run(){
+                            try{
+                                URL url2 = new URL (recphoto);
+                                HttpURLConnection conn = (HttpURLConnection)url2.openConnection();
+                                conn.setDoInput(true);
+                                conn.connect();
+
+                                InputStream is = conn.getInputStream();
+                                photo = new BitmapDrawable(is);
+                            } catch (Exception ex){
+                                Log.d(TAG, "GetData : Error ", ex);
+                                String errorString = ex.toString();
+
+
+                            }
+                        }
+                    };
+                    mThread.start();
+                    try{
+                        mThread.join();
+                        adapterForview.addItem(photo, recname, date,number);
+                    }catch(Exception e){
+                        photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
+                        adapterForview.addItem(photo, recname, date,number);
+                    }
+
                 }
-                else if(recphoto.matches("(.*).png")||recphoto.matches("(.*).jpg")){
-                    ;
+                else{//이미지 이름을 받았으면
+                    try {
+                        int photoid = getResources().getIdentifier(recphoto, "drawable", getPackageName());
+                        photo = getResources().getDrawable(photoid);
+                        Myviewitem.setIcon(photo);
+                        adapterForview.addItem(photo, recname, date,number);
+                    } catch(Exception ex){
+                        photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
+                        adapterForview.addItem(photo, recname, date,number);
+                    }
+
                 }
                 //recphoto로 받은 string이 null이 거나 이미지 파일이 아니거나 url도 아닐경우 그대로 검색 아이콘
 
-                Myfavitem.setIcon(photo);
-                Myfavitem.setTitle(recname);
-                Myfavitem.setMemo(memo);
-
-                adapterForview.addItem(photo, recname, memo);
                 adapterForview.notifyDataSetChanged();
 
             }
