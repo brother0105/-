@@ -77,7 +77,7 @@ public class customtoolbar extends AppCompatActivity implements View.OnClickList
         viewLayout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-
+                closeMenu();
             }
 
         });
@@ -152,6 +152,7 @@ public class customtoolbar extends AppCompatActivity implements View.OnClickList
         isMenushow=true;
         Animation slide = AnimationUtils.loadAnimation(this, R.anim.sidebar_show);
         sideLayout.startAnimation(slide);
+        sideLayout.setClickable(true);
         viewLayout.setVisibility(View.VISIBLE);
         viewLayout.setEnabled(true);
         mainLayout.setEnabled(false);
@@ -167,6 +168,7 @@ public class customtoolbar extends AppCompatActivity implements View.OnClickList
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                sideLayout.setClickable(false);
                 viewLayout.setVisibility(View.GONE);
                 viewLayout.setEnabled(false);
                 mainLayout.setEnabled(true);
