@@ -10,23 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="92dp"
-            android:layout_height="59dp"
-            android:onClick="onBackButtonClicked"
-            android:text="뒤로가기"
-            tools:layout_editor_absoluteX="5dp"
-            tools:layout_editor_absoluteY="3dp" />
 
         <LinearLayout
             android:id="@+id/myinfolayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:orientation="vertical"
-            android:layout_above="@id/linearLayout"
-            android:layout_below="@id/button">
+            android:orientation="vertical">
 
         <Button
             android:id="@+id/myingredient"
@@ -62,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/apporecipe"
+            android:onClick="EventGotomyview"
             android:layout_margin="30dp"
             android:layout_weight="1"
             android:padding="10dp"
@@ -71,53 +62,6 @@
         </LinearLayout>
 
 
-
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="411dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="visible"
-            tools:layout_editor_absoluteY="642dp">
-
-            <Button
-                android:id="@+id/button18"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:onClick="EventGotomyinfo"
-                android:text="나의 정보" />
-
-            <Button
-                android:id="@+id/button17"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:text="레시피" />
-
-            <Button
-                android:id="@+id/button16"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:onClick="EventGotofav"
-                android:text="즐겨찾기" />
-
-            <Button
-                android:id="@+id/button10"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:text="내 글" />
-
-        </LinearLayout>
 
 
 

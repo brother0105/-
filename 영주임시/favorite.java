@@ -33,7 +33,7 @@ import java.net.URL;
 
 import android.graphics.Bitmap;
 
-public class favorite extends AppCompatActivity  {
+public class favorite extends customtoolbar  {
 
 
     private ListView favlist;
@@ -56,7 +56,6 @@ public class favorite extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
-
 
         adapterForfav = new Myfavadapter();
 
@@ -208,7 +207,6 @@ public class favorite extends AppCompatActivity  {
 
                 Myfavitem Myfavitem = new Myfavitem();
 
-
                 Myfavitem.setTitle(recname);
                 Myfavitem.setMemo(memo);
 
@@ -228,7 +226,6 @@ public class favorite extends AppCompatActivity  {
                             } catch (Exception ex){
                                 Log.d(TAG, "GetData : Error ", ex);
                                 String errorString = ex.toString();
-
 
                             }
                         }

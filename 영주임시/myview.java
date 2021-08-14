@@ -27,7 +27,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class myview extends AppCompatActivity {
+public class myview extends customtoolbar {
 
 
     private ListView viewlist;
@@ -38,7 +38,7 @@ public class myview extends AppCompatActivity {
     private static String TAG = "phptest";
 
     private static final String TAG_JSON="tester";
-    private static final String TAG_PHOTO = "photo";
+    private static final String TAG_PHOTO = "recphoto";
     private static final String TAG_ID = "id";//id쓰게 되면 사용될 예정
     private static final String TAG_RECNAME = "recname";
     private static final String TAG_DATE ="date";
@@ -174,9 +174,9 @@ public class myview extends AppCompatActivity {
 
                 JSONObject item = jsonArray.getJSONObject(i);
 
-                String recphoto=item.optString(TAG_PHOTO,null);
                 String recname = item.getString(TAG_RECNAME);
                 String date = item.getString(TAG_DATE);
+                String recphoto=item.optString(TAG_PHOTO,null);
                 String number=item.getString(TAG_NUM);
 
 
@@ -184,7 +184,6 @@ public class myview extends AppCompatActivity {
 
                 Myviewitem.setTitle(recname);
                 Myviewitem.setDate(date);
-
 
                 if(recphoto.matches("https://(.*)")||recphoto.matches("http://(.*)")){//recphoto로 받은게 url이면
 
@@ -202,7 +201,6 @@ public class myview extends AppCompatActivity {
                             } catch (Exception ex){
                                 Log.d(TAG, "GetData : Error ", ex);
                                 String errorString = ex.toString();
-
 
                             }
                         }
