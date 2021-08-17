@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-public class Myinfo extends AppCompatActivity {
+public class Myinfo extends customtoolbar {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,13 +19,9 @@ public class Myinfo extends AppCompatActivity {
         finish();
     }
 
-    public void EventGotofav(View v){
-        Intent intent = new Intent(getApplicationContext(), favorite.class);
+    public void EventGotomyview(View v){
+        Intent intent = new Intent(getApplicationContext(), myview.class);
         startActivity(intent);
     }
 
-    public void EventGotomyinfo(View v) {
-        Intent intent = new Intent(getApplicationContext(), Myinfo.class);
-        startActivity(intent);
-    }
 }
