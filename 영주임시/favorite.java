@@ -29,7 +29,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import android.graphics.Bitmap;
 
@@ -50,6 +52,9 @@ public class favorite extends customtoolbar  {
     private static final String TAG_MEMO ="memo";
     private static final String TAG_NUM="number";
     Drawable photo=null;
+
+    // 발급받은 인증키
+    String apiKey = "0fc288b3d2d49b8b523acee959792ea82e58b0079517e6b1940e06350089ddd1";
 
 
     @Override
@@ -103,7 +108,7 @@ public class favorite extends customtoolbar  {
     }
 
 
-    private class GetData extends AsyncTask<String, Void, String> {
+    private class GetData extends AsyncTask<String, Void, String> {//php통신
         ProgressDialog progressDialog;
         String errorString = null;
 
@@ -135,6 +140,7 @@ public class favorite extends customtoolbar  {
 
         @Override
         protected String doInBackground(String... params) {
+
 
             String serverURL = params[0];
 
@@ -190,6 +196,51 @@ public class favorite extends customtoolbar  {
         }
     }
 
+    public class Task1 extends AsyncTask<String, Void, String> {
+
+        String clientKey = "0fc288b3d2d49b8b523acee959792ea82e58b0079517e6b1940e06350089ddd1";;
+        private final String ID = "########";
+        String type = "/json";
+        String serviceUrl = "/Grid_20150827000000000226_1";
+        private String str, receiveMsg;
+
+        @Override
+        protected String doInBackground(String... params) {
+            URL url = null;
+            try {
+                url = new URL("http://211.237.50.150:7080/openapi/"+clientKey+type+serviceUrl+"/1/20");
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                if (conn.getResponseCode() == conn.HTTP_OK) {
+                    InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
+                    BufferedReader reader = new BufferedReader(tmp);
+                    StringBuffer buffer = new StringBuffer();
+                    while ((str = reader.readLine()) != null) {
+                        buffer.append(str);
+                    }
+                    receiveMsg = buffer.toString();
+                    Log.i("receiveMsg : ", receiveMsg);
+
+                    reader.close();
+                } else {
+                    Log.i("통신 결과", conn.getResponseCode() + "에러");
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return receiveMsg;
+        }
+
+    }
+
+
+
+
+
     private void showResult(){
         try {
             JSONObject jsonObject = new JSONObject(mJsonString);
@@ -199,31 +250,51 @@ public class favorite extends customtoolbar  {
 
                 JSONObject item = jsonArray.getJSONObject(i);
 
-                String recname = item.getString(TAG_RECNAME);
-                String memo = item.optString(TAG_MEMO,"");
-                String recphoto=item.optString(TAG_PHOTO,null);
-                String number=item.getString(TAG_NUM);
+                fav_data fav= new fav_data();
+
+                fav.setname(item.optString(TAG_RECNAME,""));
+                fav.setmemo(item.optString(TAG_MEMO,""));
+                fav.setphoto(item.optString(TAG_PHOTO,null));
+                fav.setnumber(item.getString(TAG_NUM));
 
 
                 Myfavitem Myfavitem = new Myfavitem();
 
-                Myfavitem.setTitle(recname);
-                Myfavitem.setMemo(memo);
 
-                if(recphoto.matches("https://(.*)")||recphoto.matches("http://(.*)")){//recphoto로 받은게 url이면
+                //레시피가 api쪽이면 이름과 사진을 여기서 받아옴
+                if(Integer.parseInt(fav.getnumber())<=195453){//api쪽일때,
+                    String temp ="";
+                    favorite.Task1 favtask2 = new favorite.Task1();
+                    try {
+                        temp=favtask2.execute().get();
+                    }catch (Exception e){
+                        String errorString = null;
+
+                        Log.d(TAG, "InsertData: Error ", e);
+                        errorString = e.toString();
+
+                    }
+                    apirecipe(temp,fav);
+
+                }
+
+                Myfavitem.setTitle(fav.getname());
+                Myfavitem.setMemo(fav.getmemo());
+
+                if (fav.getphoto().matches("https://(.*)") || fav.getphoto().matches("http://(.*)")) {//recphoto로 받은게 url이면
 
                     Thread mThread = new Thread() {
                         @Override
-                        public void run(){
-                            try{
-                                URL url2 = new URL (recphoto);
-                                HttpURLConnection conn = (HttpURLConnection)url2.openConnection();
+                        public void run() {
+                            try {
+                                URL url2 = new URL(fav.getphoto());
+                                HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                                 conn.setDoInput(true);
                                 conn.connect();
 
                                 InputStream is = conn.getInputStream();
                                 photo = new BitmapDrawable(is);
-                            } catch (Exception ex){
+                            } catch (Exception ex) {
                                 Log.d(TAG, "GetData : Error ", ex);
                                 String errorString = ex.toString();
 
@@ -231,32 +302,31 @@ public class favorite extends customtoolbar  {
                         }
                     };
                     mThread.start();
-                    try{
+                    try {
                         mThread.join();
-                        adapterForfav.addItem(photo, recname, memo,number);
-                    }catch(Exception e){
+                        adapterForfav.addItem(photo, fav.getname(), fav.getmemo(), fav.getnumber());
+                    } catch (Exception e) {
                         photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
-                        adapterForfav.addItem(photo, recname, memo,number);
+                        adapterForfav.addItem(photo, fav.getname(), fav.getmemo(), fav.getnumber());
                     }
 
-                }
-                else{//이미지 이름을 받았으면
+                } else {//이미지 이름을 받았으면
                     try {
-                        int photoid = getResources().getIdentifier(recphoto, "drawable", getPackageName());
+                        int photoid = getResources().getIdentifier(fav.getphoto(), "drawable", getPackageName());
                         photo = getResources().getDrawable(photoid);
                         Myfavitem.setIcon(photo);
-                        adapterForfav.addItem(photo, recname, memo,number);
-                    } catch(Exception ex){
+                        adapterForfav.addItem(photo, fav.getname(), fav.getmemo(), fav.getnumber());
+                    } catch (Exception ex) {
                         photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
-                        adapterForfav.addItem(photo, recname, memo,number);
+                        adapterForfav.addItem(photo, fav.getname(), fav.getmemo(), fav.getnumber());
                     }
 
                 }
                 //recphoto로 받은 string이 null이 거나 이미지 파일이 아니거나 url도 아닐경우 그대로 검색 아이콘
-
-                adapterForfav.notifyDataSetChanged();
-
             }
+            adapterForfav.notifyDataSetChanged();
+
+
 
         } catch (JSONException e) {
 
@@ -265,5 +335,76 @@ public class favorite extends customtoolbar  {
 
     }
 
+
+
+    public void apirecipe(String jsonString, fav_data fav){
+        String TAG_JSON = "Grid_20150827000000000226_1";
+        String TAG_JSON2 = "row";
+        String TAG_ID = "RECIPE_ID";
+        String TAG_NAME = "RECIPE_NM_KO";
+        String TAG_URL = "IMG_URL";
+
+        try{
+            JSONObject jsonObject = new JSONObject(jsonString);
+            JSONObject channel = (JSONObject)jsonObject.get(TAG_JSON);
+            JSONArray jsonArray = channel.getJSONArray(TAG_JSON2);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                HashMap map = new HashMap<>();
+                JSONObject jObject = jsonArray.getJSONObject(i);
+
+                String id = jObject.optString(TAG_ID);
+                String name = jObject.optString(TAG_NAME);
+                String url = jObject.optString(TAG_URL);
+
+                if(id.equals(fav.getnumber())){
+                    fav.setname(name);
+                    fav.setphoto(url);
+                    break;
+                }
+
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+}
+
+class fav_data{
+    String recname=null;
+    String recphoto=null;
+    String memo=null;
+    String number=null;
+
+    public void setname(String a){
+        recname=a;
+    }
+    public void setphoto(String a){
+        recphoto=a;
+    }
+    public void setmemo(String a){
+        memo=a;
+    }
+    public void setnumber(String a){
+        number=a;
+    }
+
+    public String getname(){
+        return recname;
+    }
+
+    public String getphoto(){
+        return recphoto;
+    }
+    public String getmemo(){
+        return memo;
+    }
+    public String getnumber(){
+        return number;
+    }
 
 }
