@@ -22,10 +22,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 public class myview extends customtoolbar {
 
@@ -165,6 +168,48 @@ public class myview extends customtoolbar {
         }
     }
 
+
+    public class Task1 extends AsyncTask<String, Void, String> {
+
+        String clientKey = "0fc288b3d2d49b8b523acee959792ea82e58b0079517e6b1940e06350089ddd1";;
+        private final String ID = "########";
+        String type = "/json";
+        String serviceUrl = "/Grid_20150827000000000226_1";
+        private String str, receiveMsg;
+
+        @Override
+        protected String doInBackground(String... params) {
+            URL url = null;
+            try {
+                url = new URL("http://211.237.50.150:7080/openapi/"+clientKey+type+serviceUrl+"/1/20");
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                if (conn.getResponseCode() == conn.HTTP_OK) {
+                    InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
+                    BufferedReader reader = new BufferedReader(tmp);
+                    StringBuffer buffer = new StringBuffer();
+                    while ((str = reader.readLine()) != null) {
+                        buffer.append(str);
+                    }
+                    receiveMsg = buffer.toString();
+                    Log.i("receiveMsg : ", receiveMsg);
+
+                    reader.close();
+                } else {
+                    Log.i("통신 결과", conn.getResponseCode() + "에러");
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return receiveMsg;
+        }
+
+    }
+
     private void showResult(){
         try {
             JSONObject jsonObject = new JSONObject(mJsonString);
@@ -174,24 +219,46 @@ public class myview extends customtoolbar {
 
                 JSONObject item = jsonArray.getJSONObject(i);
 
-                String recname = item.getString(TAG_RECNAME);
-                String date = item.getString(TAG_DATE);
-                String recphoto=item.optString(TAG_PHOTO,null);
-                String number=item.getString(TAG_NUM);
+                view_data view=new view_data();
+
+                view.setname(item.optString(TAG_RECNAME,""));
+                view.setdate(item.getString(TAG_DATE));
+                view.setphoto(item.optString(TAG_PHOTO,null));
+                view.setnumber(item.getString(TAG_NUM));
 
 
                 Myviewitem Myviewitem = new Myviewitem();
 
-                Myviewitem.setTitle(recname);
-                Myviewitem.setDate(date);
 
-                if(recphoto.matches("https://(.*)")||recphoto.matches("http://(.*)")){//recphoto로 받은게 url이면
+                //레시피가 api쪽이면 이름과 사진을 여기서 받아옴
+                if(Integer.parseInt(view.getnumber())<=195453){//api쪽일때,
+                    String temp ="";
+                    myview.Task1 viewtask2 = new myview.Task1();
+                    try {
+                        temp=viewtask2.execute().get();
+                    }catch (Exception e){
+                        String errorString = null;
+
+                        Log.d(TAG, "InsertData: Error ", e);
+                        errorString = e.toString();
+
+                    }
+                    apirecipe(temp,view);
+
+                }
+
+
+
+                Myviewitem.setTitle(view.getname());
+                Myviewitem.setDate(view.getdate());
+
+                if(view.getphoto().matches("https://(.*)")||view.getphoto().matches("http://(.*)")){//recphoto로 받은게 url이면
 
                     Thread mThread = new Thread() {
                         @Override
                         public void run(){
                             try{
-                                URL url2 = new URL (recphoto);
+                                URL url2 = new URL (view.getphoto());
                                 HttpURLConnection conn = (HttpURLConnection)url2.openConnection();
                                 conn.setDoInput(true);
                                 conn.connect();
@@ -208,22 +275,22 @@ public class myview extends customtoolbar {
                     mThread.start();
                     try{
                         mThread.join();
-                        adapterForview.addItem(photo, recname, date,number);
+                        adapterForview.addItem(photo, view.getname(), view.getdate(),view.getnumber());
                     }catch(Exception e){
                         photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
-                        adapterForview.addItem(photo, recname, date,number);
+                        adapterForview.addItem(photo, view.getname(), view.getdate(),view.getnumber());
                     }
 
                 }
                 else{//이미지 이름을 받았으면
                     try {
-                        int photoid = getResources().getIdentifier(recphoto, "drawable", getPackageName());
+                        int photoid = getResources().getIdentifier(view.getphoto(), "drawable", getPackageName());
                         photo = getResources().getDrawable(photoid);
                         Myviewitem.setIcon(photo);
-                        adapterForview.addItem(photo, recname, date,number);
+                        adapterForview.addItem(photo, view.getname(), view.getdate(),view.getnumber());
                     } catch(Exception ex){
                         photo = ContextCompat.getDrawable(this, R.drawable.search_icon);
-                        adapterForview.addItem(photo, recname, date,number);
+                        adapterForview.addItem(photo, view.getname(), view.getdate(),view.getnumber());
                     }
 
                 }
@@ -238,6 +305,73 @@ public class myview extends customtoolbar {
             Log.d(TAG, "showResult : ", e);
         }
 
+    }
+
+    public void apirecipe(String jsonString, view_data fav){
+        String TAG_JSON = "Grid_20150827000000000226_1";
+        String TAG_JSON2 = "row";
+        String TAG_ID = "RECIPE_ID";
+        String TAG_NAME = "RECIPE_NM_KO";
+        String TAG_URL = "IMG_URL";
+
+        try{
+            JSONObject jsonObject = new JSONObject(jsonString);
+            JSONObject channel = (JSONObject)jsonObject.get(TAG_JSON);
+            JSONArray jsonArray = channel.getJSONArray(TAG_JSON2);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                HashMap map = new HashMap<>();
+                JSONObject jObject = jsonArray.getJSONObject(i);
+
+                String id = jObject.optString(TAG_ID);
+                String name = jObject.optString(TAG_NAME);
+                String url = jObject.optString(TAG_URL);
+
+                if(id.equals(fav.getnumber())){
+                    fav.setname(name);
+                    fav.setphoto(url);
+                    break;
+                }
+
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+}
+class view_data{
+    String recname=null;
+    String recphoto=null;
+    String date=null;
+    String number=null;
+
+    public void setname(String a){
+        recname=a;
+    }
+    public void setphoto(String a){
+        recphoto=a;
+    }
+    public void setdate(String a){
+        date=a;
+    }
+    public void setnumber(String a){
+        number=a;
+    }
+
+    public String getname(){
+        return recname;
+    }
+
+    public String getphoto(){
+        return recphoto;
+    }
+    public String getdate(){
+        return date;
+    }
+    public String getnumber(){
+        return number;
     }
 
 }
