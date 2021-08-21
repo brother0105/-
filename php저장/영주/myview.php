@@ -6,7 +6,7 @@
     include('dbcon.php');
         
 
-    $stmt = $con->prepare('select * from recipe AS rec JOIN page_view AS pv ON rec.recipe_num=pv.recipe_num');
+    $stmt = $con->prepare('select pv.recipe_num, recipe_name, photo, view_day from recipe AS rec right outer join page_view AS pv ON rec.recipe_num=pv.recipe_num');
     $stmt->execute();
 
     if ($stmt->rowCount() > 0)
@@ -21,7 +21,8 @@
                 array(
 				'recphoto'=>$photo,
                 'recname'=>$recipe_name,
-                'date'=>$view_day
+                'date'=>$view_day,
+				'number'=>$recipe_num
             ));
         }
 
