@@ -87,18 +87,21 @@ public class customtoolbar extends AppCompatActivity implements View.OnClickList
             public void infoclick() {
                 Intent intent = new Intent(getApplicationContext(),Myinfo.class);
                 startActivity(intent);
+                closeMenu();
             }
 
             @Override
             public void recipeclick() {
-                Intent intent = new Intent(getApplicationContext(),RecipeList.class);
+                Intent intent = new Intent(getApplicationContext(),TestApi.class);
                 startActivity(intent);
+                closeMenu();
             }
 
             @Override
             public void favclick() {
                 Intent intent = new Intent(getApplicationContext(),favorite.class);
                 startActivity(intent);
+                closeMenu();
             }
 
             @Override

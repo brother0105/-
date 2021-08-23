@@ -37,9 +37,9 @@ public class sidebar extends RelativeLayout implements View.OnClickListener {
         LayoutInflater.from(getContext()).inflate(R.layout.sidebar, this, true);
 
         findViewById(R.id.side_btn_cancel).setOnClickListener(this);
-        findViewById(R.id.side_btn_favorite).setOnClickListener(this);
-        findViewById(R.id.side_btn_myinfo).setOnClickListener(this);
-        findViewById(R.id.side_btn_recipe).setOnClickListener(this);
+        findViewById(R.id.side_bar_favorite).setOnClickListener(this);
+        findViewById(R.id.side_bar_myinfo).setOnClickListener(this);
+        findViewById(R.id.side_bar_recipe).setOnClickListener(this);
     }
 
     @Override
@@ -50,13 +50,13 @@ public class sidebar extends RelativeLayout implements View.OnClickListener {
 
                 listener.cancleclick();
                 break;
-            case R.id.side_btn_favorite:
+            case R.id.side_bar_favorite:
                 listener.favclick();
                 break;
-            case R.id.side_btn_myinfo:
+            case R.id.side_bar_myinfo:
                 listener.infoclick();
                 break;
-            case R.id.side_btn_recipe:
+            case R.id.side_bar_recipe:
                 listener.recipeclick();
                 break;
 
