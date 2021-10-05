@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".apporecipe">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:id="@+id/buttonline"
+            >
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="레시피 별로"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:background="@android:color/holo_blue_dark"
+                android:textColor="@color/white"
+                android:id="@+id/appo_sort_recipe"
+                />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="이름 순대로"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:background="@android:color/holo_blue_dark"
+                android:textColor="@color/white"
+                android:id="@+id/appo_sort_ingredient"
+                />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/buttonline"
+            android:layout_above="@id/addbuy"
+            android:id="@+id/apporecipeframe"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addbuy"
+            android:layout_alignParentBottom="true"
+            >
+
+            <com.example.recrecipe.ClearEditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/whatingre"
+                android:layout_weight="2"
+                android:layout_margin="5dp"
+                android:hint="재료 이름"
+                />
+
+            <com.example.recrecipe.ClearEditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/howmany"
+                android:layout_weight="2"
+                android:layout_margin="5dp"
+                android:hint="사야할 양"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:id="@+id/input_tobuy"
+                android:background="@android:color/holo_blue_dark"
+                android:textColor="@color/white"
+                android:text="입력"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
